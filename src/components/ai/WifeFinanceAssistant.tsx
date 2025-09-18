@@ -1034,16 +1034,16 @@ Jawaban:`;
                 <p>💕 <strong>Asisten Keuangan Pribadi</strong> yang selalu siap membantu Anda mengelola keuangan dengan bijak.</p>
                 <p>🎯 <strong>Edukatif & Praktis</strong> - Memberikan saran yang bisa langsung Anda terapkan.</p>
                 <p>📊 <strong>Berdasarkan Data</strong> - Analisis keuangan Anda untuk saran yang lebih personal.</p>
-                <p>🤖 <strong>Powered by Gemini</strong> - AI canggih dari Google untuk respons yang akurat.</p>
+                <p>🤖 <strong>Powered by Google</strong> - Didukung AI canggih setara dengan gemini.</p>
                 
                 <Separator className="my-3" />
                 
                 <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
-                  <p className="font-medium text-orange-700 dark:text-orange-300 mb-2">⏱️ <strong>Sistem Cooldown API</strong></p>
+                  <p className="font-medium text-orange-700 dark:text-orange-300 mb-2">⏱️ <strong>Sistem Cooldown</strong></p>
                   <ul className="text-xs space-y-1 text-orange-600 dark:text-orange-400">
                     <li>• 7 detik jeda setiap 1 prompt</li>
                     <li>• 1 menit jeda setiap 12 prompt</li>
-                    <li>• Melindungi penggunaan API agar tidak terkuras</li>
+                    <li>• Melindungi penggunaan beban server agar tidak down</li>
                     <li>• Memastikan layanan stabil untuk semua pengguna</li>
                   </ul>
                 </div>

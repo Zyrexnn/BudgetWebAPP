@@ -114,12 +114,13 @@ export const useBudgetStore = create<BudgetStore>()(
 
     const saveToStorage = (state: { transactions: Transaction[]; categories: Category[] }) => {
       if (typeof window !== 'undefined') {
+        // Prepare data to save
+        const dataToSave = {
+          transactions: state.transactions,
+          categories: state.categories,
+        };
+        
         try {
-          // Only save the data, not the functions
-          const dataToSave = {
-            transactions: state.transactions,
-            categories: state.categories,
-          };
           localStorage.setItem('budget-storage', JSON.stringify({ state: dataToSave }));
           console.log('Data saved to localStorage:', {
             transactionsCount: state.transactions.length,
