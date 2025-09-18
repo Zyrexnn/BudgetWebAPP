@@ -277,6 +277,7 @@ Proyek ini open source dan tersedia di bawah MIT License.
 - **shadcn/ui** - Komponen UI yang berkualitas
 - **Tailwind CSS** - Utility framework yang powerful
 - **Zustand** - State management solution yang simple
+- **Google AI Team** - Gemini AI yang powerful
 
 ---
 

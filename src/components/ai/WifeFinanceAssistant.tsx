@@ -1034,7 +1034,7 @@ Jawaban:`;
                 <p>💕 <strong>Asisten Keuangan Pribadi</strong> yang selalu siap membantu Anda mengelola keuangan dengan bijak.</p>
                 <p>🎯 <strong>Edukatif & Praktis</strong> - Memberikan saran yang bisa langsung Anda terapkan.</p>
                 <p>📊 <strong>Berdasarkan Data</strong> - Analisis keuangan Anda untuk saran yang lebih personal.</p>
-                <p>🤖 <strong>Powered by Google</strong> - Didukung AI canggih setara dengan gemini.</p>
+                <p>🤖 <strong>Powered by Gemini</strong> - AI canggih dari Google untuk respons yang akurat.</p>
                 
                 <Separator className="my-3" />
                 
@@ -1043,7 +1043,7 @@ Jawaban:`;
                   <ul className="text-xs space-y-1 text-orange-600 dark:text-orange-400">
                     <li>• 7 detik jeda setiap 1 prompt</li>
                     <li>• 1 menit jeda setiap 12 prompt</li>
-                    <li>• Melindungi penggunaan beban server agar tidak down</li>
+                    <li>• Melindungi penggunaan server agar tidak let down</li>
                     <li>• Memastikan layanan stabil untuk semua pengguna</li>
                   </ul>
                 </div>
