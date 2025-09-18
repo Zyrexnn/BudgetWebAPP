@@ -77,28 +77,65 @@ interface BudgetStore {
 
 export const useBudgetStore = create<BudgetStore>()(
   (set, get) => {
-    // Try to load from localStorage on client side
+    // Try to load from localStorage on client side only
     const loadFromStorage = () => {
-      if (typeof window !== 'undefined') {
-        const stored = localStorage.getItem('budget-storage');
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            return parsed.state || { transactions: initialTransactions, categories: defaultCategories };
-          } catch (error) {
-            console.error('Error loading from storage:', error);
-          }
+      // Always return initial data during SSR
+      if (typeof window === 'undefined') {
+        console.log('SSR: Using initial data');
+        return { transactions: initialTransactions, categories: defaultCategories };
+      }
+      
+      // On client side, try to load from localStorage
+      const stored = localStorage.getItem('budget-storage');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          console.log('Data loaded from localStorage:', {
+            transactionsCount: parsed.state?.transactions?.length || 0,
+            categoriesCount: parsed.state?.categories?.length || 0,
+            totalIncome: parsed.state?.transactions?.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0) || 0,
+            totalExpense: parsed.state?.transactions?.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0) || 0,
+          });
+          return parsed.state || { transactions: initialTransactions, categories: defaultCategories };
+        } catch (error) {
+          console.error('Error loading from storage:', error);
+          // Clear corrupted data
+          localStorage.removeItem('budget-storage');
         }
       }
+      console.log('Using initial data:', {
+        transactionsCount: initialTransactions.length,
+        categoriesCount: defaultCategories.length,
+        totalIncome: initialTransactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0),
+        totalExpense: initialTransactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0),
+      });
       return { transactions: initialTransactions, categories: defaultCategories };
     };
 
-    const saveToStorage = (state: BudgetStore) => {
+    const saveToStorage = (state: { transactions: Transaction[]; categories: Category[] }) => {
       if (typeof window !== 'undefined') {
         try {
-          localStorage.setItem('budget-storage', JSON.stringify({ state }));
+          // Only save the data, not the functions
+          const dataToSave = {
+            transactions: state.transactions,
+            categories: state.categories,
+          };
+          localStorage.setItem('budget-storage', JSON.stringify({ state: dataToSave }));
+          console.log('Data saved to localStorage:', {
+            transactionsCount: state.transactions.length,
+            categoriesCount: state.categories.length,
+            totalIncome: state.transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0),
+            totalExpense: state.transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0),
+          });
         } catch (error) {
           console.error('Error saving to storage:', error);
+          // Try to clear storage and save again
+          try {
+            localStorage.removeItem('budget-storage');
+            localStorage.setItem('budget-storage', JSON.stringify({ state: dataToSave }));
+          } catch (retryError) {
+            console.error('Failed to save after retry:', retryError);
+          }
         }
       }
     };
@@ -114,12 +151,20 @@ export const useBudgetStore = create<BudgetStore>()(
           ...transaction,
           id: Date.now().toString(),
         };
+        console.log('Adding new transaction:', newTransaction);
         set((state) => {
           const newState = {
             transactions: [...state.transactions, newTransaction],
             categories: state.categories,
           };
-          saveToStorage({ ...newState, ...get() });
+          console.log('New state after adding transaction:', {
+            transactionsCount: newState.transactions.length,
+            totalIncome: newState.transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0),
+            totalExpense: newState.transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0),
+            balance: newState.transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0) - 
+                     newState.transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0),
+          });
+          saveToStorage(newState);
           return newState;
         });
       },
@@ -132,7 +177,7 @@ export const useBudgetStore = create<BudgetStore>()(
             ),
             categories: state.categories,
           };
-          saveToStorage({ ...newState, ...get() });
+          saveToStorage(newState);
           return newState;
         });
       },
@@ -143,7 +188,7 @@ export const useBudgetStore = create<BudgetStore>()(
             transactions: state.transactions.filter((transaction) => transaction.id !== id),
             categories: state.categories,
           };
-          saveToStorage({ ...newState, ...get() });
+          saveToStorage(newState);
           return newState;
         });
       },
@@ -157,6 +202,15 @@ export const useBudgetStore = create<BudgetStore>()(
           .filter((t) => t.type === 'expense')
           .reduce((sum, t) => sum + t.amount, 0);
         const balance = totalIncome - totalExpense;
+        
+        console.log('Budget summary calculation:', {
+          transactionsCount: transactions.length,
+          incomeTransactions: transactions.filter(t => t.type === 'income').length,
+          expenseTransactions: transactions.filter(t => t.type === 'expense').length,
+          totalIncome,
+          totalExpense,
+          balance,
+        });
         
         return { totalIncome, totalExpense, balance };
       },

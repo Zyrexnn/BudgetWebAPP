@@ -45,6 +45,18 @@ export default function TransactionForm({ transaction, onClose, isOpen }: Transa
     },
   });
 
+  // Watch for category changes to auto-set type for salary
+  const selectedCategoryId = form.watch('categoryId');
+  
+  // Auto-set type to 'income' when salary category is selected
+  const handleCategoryChange = (categoryId: string) => {
+    form.setValue('categoryId', categoryId);
+    const category = categories.find(c => c.id === categoryId);
+    if (category && category.name === 'Gaji') {
+      form.setValue('type', 'income');
+    }
+  };
+
   const onSubmit = async (data: TransactionFormData) => {
     setIsSubmitting(true);
     try {
@@ -193,7 +205,7 @@ export default function TransactionForm({ transaction, onClose, isOpen }: Transa
                 render={({ field }) => (
                   <FormItem className="md:col-span-2">
                     <FormLabel className="text-sm font-medium">Kategori</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={handleCategoryChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent hover:border-blue-300">
                           <SelectValue placeholder="Pilih kategori" />
@@ -213,6 +225,11 @@ export default function TransactionForm({ transaction, onClose, isOpen }: Transa
                                 style={{ backgroundColor: category.color }}
                               />
                               <span>{category.name}</span>
+                              {category.name === 'Gaji' && (
+                                <span className="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                                  Auto Pemasukan
+                                </span>
+                              )}
                             </div>
                           </SelectItem>
                         ))}

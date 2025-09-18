@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Home, TrendingUp, Wallet, X } from 'lucide-react';
+import { Menu, Home, TrendingUp, Wallet, Heart, X } from 'lucide-react';
 
 interface NavigationProps {
   activeTab: string;
@@ -19,6 +19,7 @@ export default function Navigation({ activeTab, onTabChange, mobileOnly, desktop
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'transactions', label: 'Transaksi', icon: Wallet },
     { id: 'reports', label: 'Laporan', icon: TrendingUp },
+    { id: 'assistant', label: 'Wife Finance', icon: Heart },
   ];
 
   const handleTabChange = (tab: string) => {
@@ -41,7 +42,8 @@ export default function Navigation({ activeTab, onTabChange, mobileOnly, desktop
                 ? `bg-gradient-to-r ${
                     tab.id === 'dashboard' ? 'from-blue-600 via-purple-600 to-blue-600' :
                     tab.id === 'transactions' ? 'from-purple-600 via-pink-600 to-purple-600' :
-                    'from-green-600 via-emerald-600 to-green-600'
+                    tab.id === 'reports' ? 'from-green-600 via-emerald-600 to-green-600' :
+                    'from-pink-600 via-rose-600 to-pink-600'
                   } text-white hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 bg-size-200 animate-gradient shadow-lg transform scale-105` 
                 : 'hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-105 hover:translate-x-1'
               }

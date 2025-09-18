@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation';
 import Dashboard from '@/components/dashboard/Dashboard';
 import TransactionList from '@/components/transactions/TransactionList';
 import Reports from '@/components/reports/Reports';
+import WifeFinanceAssistant from '@/components/ai/WifeFinanceAssistant';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -17,6 +18,8 @@ export default function Home() {
         return <TransactionList />;
       case 'reports':
         return <Reports />;
+      case 'assistant':
+        return <WifeFinanceAssistant />;
       default:
         return <Dashboard />;
     }
@@ -36,6 +39,7 @@ export default function Home() {
               {activeTab === 'dashboard' && 'Dashboard'}
               {activeTab === 'transactions' && 'Manajemen Transaksi'}
               {activeTab === 'reports' && 'Laporan Keuangan'}
+              {activeTab === 'assistant' && 'Wife Finance Assistant'}
             </p>
           </div>
         </div>
@@ -53,22 +57,26 @@ export default function Home() {
               <div className={`h-12 w-1 rounded-full bg-gradient-to-b ${
                 activeTab === 'dashboard' ? 'from-blue-500 to-purple-600' :
                 activeTab === 'transactions' ? 'from-purple-500 to-pink-600' :
-                'from-green-500 to-emerald-600'
+                activeTab === 'reports' ? 'from-green-500 to-emerald-600' :
+                'from-pink-500 to-rose-600'
               }`}></div>
               <div>
                 <h1 className={`text-3xl lg:text-4xl font-bold bg-gradient-to-r ${
                   activeTab === 'dashboard' ? 'from-blue-600 via-purple-600 to-blue-600' :
                   activeTab === 'transactions' ? 'from-purple-600 via-pink-600 to-purple-600' :
-                  'from-green-600 via-emerald-600 to-green-600'
+                  activeTab === 'reports' ? 'from-green-600 via-emerald-600 to-green-600' :
+                  'from-pink-600 via-rose-600 to-pink-600'
                 } bg-clip-text text-transparent bg-size-200 animate-gradient`}>
                   {activeTab === 'dashboard' && 'Dashboard'}
                   {activeTab === 'transactions' && 'Manajemen Transaksi'}
                   {activeTab === 'reports' && 'Laporan Keuangan'}
+                  {activeTab === 'assistant' && 'Wife Finance Assistant'}
                 </h1>
                 <p className="text-lg text-slate-600 dark:text-slate-400 mt-2">
                   {activeTab === 'dashboard' && 'Ringkasan keuangan Anda'}
                   {activeTab === 'transactions' && 'Kelola semua transaksi keuangan Anda'}
                   {activeTab === 'reports' && 'Analisis dan laporan keuangan'}
+                  {activeTab === 'assistant' && 'Asisten keuangan pribadi yang cerdas dan peduli'}
                 </p>
               </div>
             </div>

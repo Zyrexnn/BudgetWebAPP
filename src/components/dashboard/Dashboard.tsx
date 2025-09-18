@@ -2,12 +2,21 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip as ShadcnTooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useBudgetStore } from '@/store/budgetStore';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, TrendingDown, DollarSign, Wallet, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
   const { getBudgetSummary, getCategorySpending, getHighestTransaction } = useBudgetStore();
+  const [isClient, setIsClient] = useState(false);
+  
+  // Ensure we're on client side before rendering dynamic data
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
   const summary = getBudgetSummary();
   const categorySpending = getCategorySpending().filter(item => item.totalAmount > 0);
   const highestTransaction = getHighestTransaction();
@@ -20,6 +29,16 @@ export default function Dashboard() {
       maximumFractionDigits: 0,
     }).format(amount);
   };
+
+  // Function to determine if balance is healthy
+  const isBalanceHealthy = (balance: number, totalIncome: number) => {
+    if (balance < 0) return false; // Negative balance is not healthy
+    if (totalIncome === 0) return balance >= 0; // No income, any non-negative balance is okay
+    // Consider healthy if balance is at least 20% of total income
+    return balance >= (totalIncome * 0.2);
+  };
+
+  const balanceHealth = isBalanceHealthy(summary.balance, summary.totalIncome);
 
   const summaryCards = [
     {
@@ -59,23 +78,46 @@ export default function Dashboard() {
   const COLORS = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#6b7280'];
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="text-center md:text-left">
-        <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
-          <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg">
-            <Sparkles className="h-6 w-6 text-white" />
+    <TooltipProvider>
+      <div className="space-y-8">
+        {!isClient ? (
+          // Loading skeleton during SSR
+          <div className="space-y-8">
+            <div className="text-center">
+              <div className="h-8 bg-gray-200 rounded animate-pulse mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-64 mx-auto"></div>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="border-2 border-gray-200">
+                  <CardContent className="p-6">
+                    <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+                    <div className="h-8 bg-gray-200 rounded animate-pulse mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-32"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-          <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent bg-size-200 animate-gradient">
-              Dashboard
-            </h1>
-            <p className="text-lg text-muted-foreground mt-2 max-w-2xl">
-              Ringkasan keuangan pribadi Anda dalam satu pandangan yang jelas dan informatif
-            </p>
-          </div>
-        </div>
-      </div>
+        ) : (
+          // Actual content when client-side
+          <>
+            {/* Header Section */}
+            <div className="text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-4 mb-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg">
+                  <Sparkles className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent bg-size-200 animate-gradient">
+                    Dashboard
+                  </h1>
+                  <p className="text-lg text-muted-foreground mt-2 max-w-2xl">
+                    Ringkasan keuangan pribadi Anda dalam satu pandangan yang jelas dan informatif
+                  </p>
+                </div>
+              </div>
+            </div>
 
       {/* Summary Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -108,25 +150,43 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="relative z-10">
                 <div className={`text-3xl font-bold ${card.color} mb-2 transition-all duration-300 group-hover:scale-105`}>
-                  {formatCurrency(card.amount)}
+                  {isClient ? formatCurrency(card.amount) : 'Loading...'}
                 </div>
                 <p className="text-xs text-muted-foreground mb-3">
                   {card.description}
                 </p>
                 {card.title === 'Saldo' && (
-                  <Badge 
-                    variant={card.amount >= 0 ? 'default' : 'destructive'} 
-                    className={`
-                      text-xs font-medium shadow-sm transition-all duration-300
-                      ${card.amount >= 0 
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700' 
-                        : 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700'
+                <ShadcnTooltip>
+                  <TooltipTrigger asChild>
+                    <Badge 
+                      variant={balanceHealth ? 'default' : 'destructive'} 
+                      className={`
+                        text-xs font-medium shadow-sm transition-all duration-300 cursor-pointer hover:scale-105
+                        ${balanceHealth 
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700' 
+                          : 'bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700'
+                        }
+                      `}
+                    >
+                      {balanceHealth ? '✨ Sehat' : '⚠️ Perhatian'}
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p className="font-medium">
+                      {isClient && balanceHealth 
+                        ? `✅ Saldo Sehat! (${((summary.balance / summary.totalIncome) * 100).toFixed(1)}% dari pemasukan)`
+                        : `⚠️ Perlu Perhatian`
                       }
-                    `}
-                  >
-                    {card.amount >= 0 ? '✨ Sehat' : '⚠️ Perhatian'}
-                  </Badge>
-                )}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {isClient && balanceHealth 
+                        ? 'Saldo Anda berada dalam kondisi yang baik.'
+                        : 'Disarankan menyisihkan minimal 20% dari pemasukan untuk tabungan.'
+                      }
+                    </p>
+                  </TooltipContent>
+                </ShadcnTooltip>
+              )}
               </CardContent>
             </Card>
           );
@@ -168,7 +228,7 @@ export default function Dashboard() {
                   tickLine={false}
                 />
                 <Tooltip 
-                  formatter={(value: number) => [formatCurrency(value), 'Jumlah']}
+                  formatter={(value: number) => isClient ? [formatCurrency(value), 'Jumlah'] : ['Loading...', 'Jumlah']}
                   labelFormatter={(label) => `Kategori: ${label}`}
                   contentStyle={{
                     backgroundColor: 'rgba(255, 255, 255, 0.95)',
@@ -237,7 +297,7 @@ export default function Dashboard() {
                   ))}
                 </Pie>
                 <Tooltip 
-                  formatter={(value: number) => [formatCurrency(value), 'Jumlah']}
+                  formatter={(value: number) => isClient ? [formatCurrency(value), 'Jumlah'] : ['Loading...', 'Jumlah']}
                   labelFormatter={(label) => `Kategori: ${label}`}
                   contentStyle={{
                     backgroundColor: 'rgba(255, 255, 255, 0.95)',
@@ -289,10 +349,10 @@ export default function Dashboard() {
               
               <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/20 dark:to-pink-800/20 border border-purple-200 dark:border-purple-800 card-hover group transition-all duration-300 hover:scale-105">
                 <div className="text-2xl font-bold text-purple-600 mb-2 transition-all duration-300 group-hover:scale-110">
-                  {highestTransaction ? formatCurrency(highestTransaction.amount) : formatCurrency(0)}
+                  {isClient ? (highestTransaction ? formatCurrency(highestTransaction.amount) : formatCurrency(0)) : 'Loading...'}
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">Pengeluaran Tertinggi</div>
-                {highestTransaction && (
+                {isClient && highestTransaction && (
                   <div className="text-xs text-purple-500 mt-1 font-medium">
                     {highestTransaction.description}
                   </div>
@@ -303,6 +363,9 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </>
+        )}
+      </div>
+    </TooltipProvider>
   );
 }
