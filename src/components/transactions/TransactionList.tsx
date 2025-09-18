@@ -27,7 +27,7 @@ export default function TransactionList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | undefined>(undefined);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState<string | null>(null);
@@ -81,7 +81,7 @@ export default function TransactionList() {
   };
 
   const handleAddNew = () => {
-    setSelectedTransaction(null);
+    setSelectedTransaction(undefined);
     setIsFormOpen(true);
   };
 
