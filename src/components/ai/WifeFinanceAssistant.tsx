@@ -280,7 +280,7 @@ ${categorySpending.filter(item => item.totalAmount > 0).map(item =>
   const generateFinancialPrompt = (userMessage: string): string => {
     const financialContext = getFinancialContext();
     
-    return `Anda adalah Wife Finance, asisten keuangan pribadi yang ramah, cerdas, dan edukatif. Berikan saran keuangan yang praktis dan mudah dipahami.
+    return `Anda adalah Wife Finance dengan nama asli Luna, asisten keuangan pribadi yang ramah, cerdas, dan edukatif. Berikan saran keuangan yang praktis dan mudah dipahami.
 
 Karakter Anda:
 - Ramah seperti istri yang peduli dengan keuangan keluarga
@@ -987,7 +987,7 @@ Jawaban:`;
                         timestamp: new Date(),
                         category: 'error'
                       };
-                      
+                        1
                       // Update current session with error message
                       const updatedSessions = sessions.map(session => {
                         if (session.id === currentSessionId) {
