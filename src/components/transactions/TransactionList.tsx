@@ -259,7 +259,7 @@ export default function TransactionList() {
               </div>
               <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center text-sm font-bold shadow-md transition-all duration-300 group-hover:scale-110">
                 {filteredTransactions.length}
-              </div> 
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -370,7 +370,6 @@ export default function TransactionList() {
                             onClick={() => handleDelete(transaction.id)}
                             className="transition-all duration-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 hover:scale-105 btn-animate"
                           >
-                            
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -411,7 +410,7 @@ export default function TransactionList() {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent className="sm:max-w-md border-2 border-s late-200 dark:border-slate-700 shadow-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-slate-900/80">
+        <DialogContent className="sm:max-w-md border-2 border-slate-200 dark:border-slate-700 shadow-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-slate-900/80">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3">
               <div className="p-3 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 shadow-md transition-all duration-300 hover:scale-110">
@@ -423,7 +422,6 @@ export default function TransactionList() {
               Apakah Anda yakin ingin menghapus transaksi ini? Tindakan ini tidak dapat dibatalkan.
             </DialogDescription>
           </DialogHeader>
-
           <DialogFooter className="flex gap-2 sm:gap-0">
             <Button 
               variant="outline" 
@@ -431,8 +429,6 @@ export default function TransactionList() {
               className="transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800 btn-animate hover:scale-105"
             >
               Batal
-              
-
             </Button>
             <Button 
               variant="destructive" 

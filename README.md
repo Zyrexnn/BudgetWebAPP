@@ -4,6 +4,14 @@ Aplikasi manajemen anggaran personal modern yang kaya fitur, membantu Anda melac
 
 ## ✨ Fitur Unggulan
 
+### 🌙 Dark Mode & Light Mode
+- **Theme Switching**: Beralih antara mode terang dan gelap dengan mudah
+- **System Detection**: Otomatis mendeteksi preferensi tema sistem
+- **Smooth Transitions**: Animasi halus saat berpindah tema
+- **Optimized Colors**: Skema warna yang dioptimalkan untuk masing-masing mode
+- **Toggle Button**: Tombol tema yang intuitif dengan animasi
+- **Persistent Preference**: Preferensi tema tersimpan otomatis
+
 ### 📊 Dashboard Interaktif
 - **Ringkasan Keuangan Real-time**: Tampilan status finansial Anda secara langsung
 - **Grafik Kategori**: Visualisasi pengeluaran berdasarkan kategori dengan grafik batang
@@ -74,6 +82,7 @@ Aplikasi manajemen anggaran personal modern yang kaya fitur, membantu Anda melac
 - **✅ Zod** - Schema validation TypeScript-first
 - **🤖 Google Generative AI** - Gemini 2.5 Flash untuk AI assistant
 - **💾 localStorage** - Penyimpanan data lokal untuk persistence
+- **🌙 next-themes** - Manajemen tema dark mode/light mode
 
 ### Development Tools
 - **🔧 ESLint** - Pengecekan kualitas dan konsistensi kode
@@ -210,7 +219,14 @@ src/
 - AI akan memberikan saran berdasarkan data keuangan Anda
 - Hover pada badge kategori untuk melihat jenis pesan
 
-### 5. Mengelola Transaksi
+### 5. Menggunakan Dark Mode & Light Mode
+- **Toggle Theme**: Klik tombol sun/moon di pojok kiri bawah navigation
+- **System Theme**: Aplikasi otomatis mendeteksi preferensi tema sistem Anda
+- **Manual Selection**: Pilih tema terang atau gelap sesuai keinginan
+- **Persistent**: Pilihan tema Anda akan tersimpan untuk kunjungan berikutnya
+- **Smooth Transition**: Nikmati animasi halus saat berpindah tema
+
+### 7. Mengelola Transaksi
 - Gunakan fitur pencarian dan filter untuk menemukan transaksi
 - Edit atau hapus transaksi dengan mudah
 - Data otomatis tersimpan

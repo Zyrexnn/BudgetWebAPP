@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Home, TrendingUp, Wallet, Heart, X } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 interface NavigationProps {
   activeTab: string;
@@ -119,8 +120,11 @@ export default function Navigation({ activeTab, onTabChange, mobileOnly, desktop
                 
                 {/* Footer */}
                 <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
-                  <div className="text-xs text-slate-500 dark:text-slate-400 text-center">
-                    © 2024 BudgetWebAPP
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      © 2024 BudgetWebAPP
+                    </div>
+                    <ThemeToggle />
                   </div>
                 </div>
               </div>
@@ -145,8 +149,11 @@ export default function Navigation({ activeTab, onTabChange, mobileOnly, desktop
               <NavItems />
             </nav>
             <div className="px-3 py-4">
-              <div className="text-xs text-slate-500 dark:text-slate-400 text-center px-3 py-2 rounded-lg bg-slate-50/50 dark:bg-slate-800/50">
-                © 2024 BudgetWebAPP
+              <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-50/50 dark:bg-slate-800/50">
+                <div className="text-xs text-slate-500 dark:text-slate-400">
+                  © 2024 BudgetWebAPP
+                </div>
+                <ThemeToggle />
               </div>
             </div>
           </div>

@@ -1039,11 +1039,11 @@ Jawaban:`;
                 <Separator className="my-3" />
                 
                 <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
-                  <p className="font-medium text-orange-700 dark:text-orange-300 mb-2">⏱️ <strong>Sistem Cooldown</strong></p>
+                  <p className="font-medium text-orange-700 dark:text-orange-300 mb-2">⏱️ <strong>Sistem Cooldown API</strong></p>
                   <ul className="text-xs space-y-1 text-orange-600 dark:text-orange-400">
                     <li>• 7 detik jeda setiap 1 prompt</li>
                     <li>• 1 menit jeda setiap 12 prompt</li>
-                    <li>• Melindungi penggunaan server agar tidak let down</li>
+                    <li>• Melindungi penggunaan API agar tidak terkuras</li>
                     <li>• Memastikan layanan stabil untuk semua pengguna</li>
                   </ul>
                 </div>

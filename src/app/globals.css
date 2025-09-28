@@ -156,6 +156,19 @@
   background: hsl(var(--muted-foreground) / 0.5);
 }
 
+/* Dark mode scrollbar improvements */
+.dark ::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.1);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.6);
+}
+
 /* Glass morphism effect */
 .glass {
   background: rgba(255, 255, 255, 0.1);
@@ -176,6 +189,10 @@
 .card-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 
 /* Button animations */
@@ -256,17 +273,33 @@
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15), 0 8px 12px -8px rgba(0, 0, 0, 0.1);
 }
 
+.dark .hover-lift:hover {
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4), 0 8px 12px -8px rgba(0, 0, 0, 0.3);
+}
+
 /* Glow effects */
 .glow-blue {
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.dark .glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
 }
 
 .glow-purple {
   box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
 }
 
+.dark .glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
 .glow-green {
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.dark .glow-green {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
 }
 
 /* Interactive elements */
@@ -287,6 +320,10 @@
   transition: left 0.5s;
 }
 
+.dark .interactive-card::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
 .interactive-card:hover::before {
   left: 100%;
 }
@@ -305,6 +342,10 @@
 .focus-ring:focus-visible {
   outline-color: hsl(var(--primary));
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.dark .focus-ring:focus-visible {
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
 }
 
 /* Loading skeleton */
@@ -332,6 +373,10 @@
 .table-row-hover:hover {
   background-color: hsl(var(--accent) / 0.05);
   transform: scale(1.005);
+}
+
+.dark .table-row-hover:hover {
+  background-color: hsl(var(--accent) / 0.1);
 }
 
 /* Progress bar animations */
@@ -374,4 +419,43 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.2);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.6);
+}
+
+/* Dark mode specific improvements */
+.dark {
+  /* Improved text readability in dark mode */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dark .text-gradient {
+  text-shadow: none;
+}
+
+/* Enhanced dark mode cards */
+.dark .card-hover {
+  background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+}
+
+/* Dark mode chart improvements */
+.dark .recharts-tooltip {
+  background: hsl(var(--popover)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Smooth theme transition */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
